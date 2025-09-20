@@ -1,0 +1,42 @@
+#ifndef SJFSCHEDULER_H
+#define SJFSCHEDULER_H
+#include <queue>
+#include <vector>
+#include "process.h"
+#include "scheduler.h"
+
+
+
+/// Comparador para la cola de prioridad:
+/// Ordena primero por BurstTime restante, y en caso de empate por ArrivalTime y por ultimo, por la etiqueta.
+struct SJFCompare {
+    bool operator()(const Proceso* a, const Proceso* b) const {
+        bool ans;
+        if (a->getBurst() == b->getBurst()) {
+            if(a->getArrival() == b->getArrival())
+                ans = a->getPid() > b->getPid();
+            else ans = a->getArrival() > b->getArrival();
+        }
+        else ans = a->getBurst() > b->getBurst();
+        return ans;
+    }
+};
+
+/// Implementación de Shortest Job First (SJF).
+class SJF : public Scheduler {
+private:
+    priority_queue< Proceso*, vector<Proceso*>, SJFCompare> ready;
+
+public:
+    SJF() = default;
+    //~SJF() override = default;
+
+    void addProceso(Proceso* proc) override;
+    bool hasProcesos() const override;
+    Proceso* peek()  override;
+    Proceso* next() override;
+    int run(Proceso* proc, int timeSlice) override;
+    const char* name() const override { return "SJF"; }
+};
+
+#endif
