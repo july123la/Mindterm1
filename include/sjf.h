@@ -3,7 +3,6 @@
 #include <queue>
 #include <vector>
 #include "process.h"
-#include "scheduler.h"
 
 /// Comparador para la cola de prioridad:
 /// Ordena primero por BurstTime restante, y en caso de empate por ArrivalTime y por ultimo, por la etiqueta.

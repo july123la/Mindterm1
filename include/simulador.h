@@ -2,7 +2,7 @@
 #define SIMULADOR_H
 #include <vector>
 #include "process.h"
-#include "MLFQ.h"
+#include "mlfq.h"
 
 class Simulador{
     private:
@@ -10,11 +10,19 @@ class Simulador{
     int pr;
     int terminados;
     int numProcesos;
+    vector<double> Promedios;
     MLFQ colas;
     vector<Proceso*> order;
+    vector<Proceso*> procesos;
     
     public: 
-    Simulador(vector<Proceso*> order);
+    Simulador(vector<Proceso*> order, vector<Proceso*> procesos);
+
+    void printReport();
+
+    void calculatePromedios();
+
+    void printPromedios();
 
     void run();
 

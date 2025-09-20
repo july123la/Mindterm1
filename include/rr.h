@@ -18,15 +18,14 @@ public:
     RR(int q);
 
     void addProcess(Proceso* proc);
-    bool hasProcessos() const;
-    Proceso* peek();
-
-    const char* name() const{ return "Round Robin"; }
-
+    bool hasProcesos() const;
+    Proceso* peek() const;
+    void deleteProcess();
+    void increaseIT();
     /// Devuelve el quantum configurado.
-    int getQuantum() const { return quantum; }
+    int getQuantum() const;
 
-    void updWT();
+    void updWT( int pid);
 };
 
 #endif

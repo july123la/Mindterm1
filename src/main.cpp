@@ -12,7 +12,7 @@
 using namespace std;
 int numProcesos;
 
-vector<Proceso> procesos;
+vector<Proceso*> procesos;
 vector<Proceso*> order;
 
 bool compare(const Proceso* a, const Proceso* b){
@@ -21,24 +21,6 @@ bool compare(const Proceso* a, const Proceso* b){
         ans = a->getPid() < b->getPid();
     else ans = a->getArrival() < b->getArrival();
     return ans;
-}
-
-void imprimirTabla() {
-    int n = numProcesos;
-
-    cout << "P\tAT\tBT\tQ\tCT\tTAT\tWT\tRT\n";
-    cout << "---------------------------------------------\n";
-
-    for (int i = 0; i < n; i++) {
-        cout << procesos[i].getLabel()   << "\t"
-             << procesos[i].getArrival()  << "\t"
-             << procesos[i].getBurst()  << "\t"
-             << procesos[i].getInitialQueue()  << "\t"
-             << procesos[i].getCompletionTime()  << "\t"
-             << procesos[i].getTurnAroundTime() << "\t"
-             << procesos[i].getWaitingTime()  << "\t"
-             << procesos[i].getResponseTime()  << "\n";
-    }
 }
 
 int main(int argc, char* argv[]) {
@@ -68,16 +50,17 @@ int main(int argc, char* argv[]) {
             s.erase(remove_if(s.begin(), s.end(), ::isspace), s.end());
         };
         trim(label); trim(bt); trim(at); trim(q); trim(p);
-        procesos.push_back(Proceso(i, label, stoi(at), stoi(bt), stoi(q), stoi(p)));
-        order.push_back(&procesos[i]);
+        procesos.push_back(new Proceso(i, label, stoi(at), stoi(bt), stoi(q), stoi(p)));
+        order.push_back(procesos[i]);
         i++;
     }
     file.close();
     numProcesos = i;
     sort(order.begin(), order.end(), compare);
-    Simulador simulacion(order);
+    Simulador simulacion(order, procesos);
     simulacion.run();
-    imprimirTabla();
-
+    simulacion.printReport();
+    simulacion.calculatePromedios();
+    simulacion.printPromedios();
     return 0;
 }

@@ -1,5 +1,9 @@
-#pragma once
+#ifndef PROCESS_H
+#define PROCESS_H
+
 #include <string>
+#include <iostream>
+using namespace std;
 
 /// Estado del proceso en la simulación
 enum class Estado {
@@ -28,6 +32,7 @@ private:
 
 public:
     /// Constructor
+
     Proceso(int pid,
             const std::string& label,
             int arrival,
@@ -69,3 +74,5 @@ public:
 
     void run(int time);
 };
+
+#endif

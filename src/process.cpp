@@ -53,10 +53,11 @@ void Proceso::run(int time) {
     remaining--;
     if(ResponseTime == -1)
         ResponseTime = time;
-    if(remaining == 0)
-        CompletionTime = time;
+    if(remaining == 0){
+        CompletionTime = time + 1;
         TurnAroundTime = CompletionTime - arrival;
         setState(Estado(4));
+    }
 }
 
 void Proceso::incrementWT(){
